@@ -9,7 +9,7 @@ class DownloadService
     public static function add(
         string $pathname,
         string $filename,
-        int $ttl = 60,
+        $ttl = 60,
         bool $deleteFileAfterSend = true
     ) {
         $pathname = realpath($pathname);
