@@ -14,7 +14,7 @@ class DownloadService
     ) {
         $pathname = realpath($pathname);
         $cache = compact('pathname', 'filename', 'deleteFileAfterSend');
-        $key = md5($pathname);
+        $key = md5($pathname . time());
         Cache::put($key, $cache, $ttl);
 
         return [
