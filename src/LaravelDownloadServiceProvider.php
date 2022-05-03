@@ -9,6 +9,8 @@ class LaravelDownloadServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->router->get('api/download/{key?}', [DownloadController::class, 'download']);
+        $this->app->router->get('api/download', [DownloadController::class, 'download']);
+        $this->app->router->get('api/download/{key}', [DownloadController::class, 'download'])
+            ->where('key', '^\w{32}$');
     }
 }
