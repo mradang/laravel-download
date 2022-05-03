@@ -7,11 +7,11 @@ use mradang\LaravelDownload\Services\DownloadService;
 
 class DownloadController extends Controller
 {
-    public function download(Request $request)
+    public function download(Request $request, string $key = '')
     {
         $validatedData = $this->validate($request, [
-            'key' => 'required|string|size:32',
+            'key' => 'nullable|string|size:32',
         ]);
-        return DownloadService::download($validatedData['key']);
+        return DownloadService::download($request->input('key', $key));
     }
 }
