@@ -10,7 +10,7 @@ class DownloadService
         string $pathname,
         string $filename,
         $ttl = 60,
-        bool $deleteFileAfterSend = true
+        bool $deleteFileAfterSend = false
     ) {
         $pathname = realpath($pathname);
         $cache = compact('pathname', 'filename', 'deleteFileAfterSend');
@@ -20,6 +20,7 @@ class DownloadService
         return [
             'key' => $key,
             'name' => $filename,
+            'link' => url('/api/download', $key),
         ];
     }
 
