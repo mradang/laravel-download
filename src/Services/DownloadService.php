@@ -37,7 +37,10 @@ class DownloadService
             && array_key_exists('filename', $cache)
             && is_file($cache['pathname'])
         ) {
-            return response()->download($cache['pathname'], $cache['filename']);
+            return response()->download(
+                $cache['pathname'],
+                str_replace(['/', '\\'], ['-', '-'], $cache['filename']),
+            );
         } else {
             abort(404);
         }
