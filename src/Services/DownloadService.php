@@ -12,8 +12,10 @@ class DownloadService
     public static function add(string $pathname, string $filename, $ttl = 3600)
     {
         $pathname = realpath($pathname);
-        if (!Str::startsWith($pathname, storage_path())) {
-            throw new Exception('Non storage paths are not supported');
+        if (config('app.env') === 'production' || !config('app.debug')) {
+            if (!Str::startsWith($pathname, storage_path())) {
+                throw new Exception('Non storage paths are not supported');
+            }
         }
 
         $value = compact('pathname', 'filename');

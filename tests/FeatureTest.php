@@ -17,11 +17,10 @@ class FeatureTest extends TestCase
      */
     public function testBasicFeatures()
     {
-        $res = $this->json('GET', 'api/download?key=abc');
-        $this->assertSame(['key' => 'abc'], request()->all());
-        $res->assertStatus(422);
+        $res = $this->json('GET', 'api/download/abc');
+        $res->assertStatus(404);
 
-        $res = $this->json('GET', 'api/download?key=12345678901234567890123456789012');
+        $res = $this->json('GET', 'api/download/12345678901234567890123456789012');
         $res->assertStatus(404);
 
         $fakeImage = UploadedFile::fake()->image('image2.jpg');
@@ -29,7 +28,10 @@ class FeatureTest extends TestCase
         $this->assertFileExists($pathname);
         $ret = DownloadService::add($pathname, 'abc.jpg');
 
-        $res = $this->json('GET', 'api/download?key='.$ret['key']);
+        $this->assertNotEmpty(config('app.url'));
+        $this->assertStringStartsWith(config('app.url') . '/api/download/', $ret['url']);
+
+        $res = $this->json('GET', $ret['url']);
         $res->assertOk();
         $res->assertHeader('content-length', $fakeImage->getSize());
         $this->assertStringStartsWith('attachment', $res->headers->get('content-disposition'));
