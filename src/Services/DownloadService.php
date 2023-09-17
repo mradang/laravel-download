@@ -26,7 +26,7 @@ class DownloadService
 
         return [
             'name' => $filename,
-            'url' => url('/api/download', $key),
+            'url' => config('app.url') . '/api/download/' . $key,
         ];
     }
 
