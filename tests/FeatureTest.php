@@ -7,15 +7,12 @@ use mradang\LaravelDownload\Services\DownloadService;
 
 class FeatureTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    /**
-     * @covers DownloadController::download
-     */
-    public function testBasicFeatures()
+    public function test_basic_features()
     {
         $res = $this->json('GET', 'api/download/abc');
         $res->assertStatus(404);
@@ -29,7 +26,7 @@ class FeatureTest extends TestCase
         $ret = DownloadService::add($pathname, 'abc.jpg');
 
         $this->assertNotEmpty(config('app.url'));
-        $this->assertStringStartsWith(config('app.url') . '/api/download/', $ret['url']);
+        $this->assertStringStartsWith(config('app.url').'/api/download/', $ret['url']);
 
         $res = $this->json('GET', $ret['url']);
         $res->assertOk();
